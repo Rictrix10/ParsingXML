@@ -6,7 +6,7 @@ with open('dataset.csv', 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     
     
-    root = ET.Element('DatasetXML')
+    root = ET.Element('People')
     
     for row in csv_reader:
         person = ET.SubElement(root, 'Person')
