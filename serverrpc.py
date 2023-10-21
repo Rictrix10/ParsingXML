@@ -2,14 +2,24 @@ import xmlrpc.server
 import xml.etree.ElementTree as ET
 
 # Função para buscar dados com base no campo "country"
-def buscar_dados_por_pais(pais):
+def buscar_dados_por_pais(info, type):
     tree = ET.parse('dataset.xml')
     root = tree.getroot()
     
     resultado = []
     for person in root.findall('Person'):
-        country_element = person.find('country')
-        if country_element is not None and country_element.text == pais:
+
+        if type == 1:
+            country_element = person.find('country')
+        elif type == 2:
+            country_element = person.find('first_name')
+        elif type == 3:
+            country_element = person.find('last_name')
+        elif type == 4:
+            country_element = person.find('age')
+        
+
+        if country_element is not None and country_element.text == info:
             resultado.append({
                 'id': person.find('id').text,
                 'first_name': person.find('first_name').text,
