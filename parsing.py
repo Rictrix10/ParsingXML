@@ -1,7 +1,6 @@
 import csv
 import xml.etree.ElementTree as ET
 
-# Lê o arquivo CSV
 with open('ParsingXML/dataset.csv', 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     
