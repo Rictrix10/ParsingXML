@@ -1,5 +1,7 @@
 import xmlrpc.client
 import psycopg2
+import os
+import time
 
 # Conectar ao servidor RPC
 proxy = xmlrpc.client.ServerProxy('http://localhost:8000/')
@@ -7,7 +9,6 @@ proxy = xmlrpc.client.ServerProxy('http://localhost:8000/')
 def resultados(resultado):
     if resultado:
 
-        print("a")
         # Conectar ao banco de dados PostgreSQL
         conn = psycopg2.connect(
             dbname="ParsingXML",
@@ -34,55 +35,61 @@ def resultados(resultado):
 
             conn.commit()
             print(f"Os dados das pessoas foram inseridos com sucesso no banco de dados.")
+            input("Insira qualquer tecla para continuar!")
         except Exception as e:
             conn.rollback()
-            print(f"Ocorreu um erro ao inserir os dados no banco de dados: {e}")
+            print(f"\nOcorreu um erro ao inserir os dados no banco de dados: \033[91m{e}\033[0m ")
+            input("Insira qualquer tecla para continuar!")
         finally:
             cursor.close()
             conn.close()
     else:
-        print(f"Nenhuma pessoa encontrada com o país.")
-
-
-# Solicitar ao usuário que insira o país da pessoa
+        print("\nNenhum dado encontrado.")
+        input("\nInsira qualquer tecla para continuar!")
 
 while True:
-    print("Escolha uma opção:")
-    print("1 - País")
-    print("2 - first name")
-    print("3 - last name")
-    print("4 - Idade")
-    print("5 - Sair")
+    os.system('cls')
+    print("<--Escolha uma opção-->")
+    print("< 1 - País            >")
+    print("< 2 - Primeiro nome   >")
+    print("< 3 - Último nome     >")
+    print("< 4 - Idade           >")
+    print("< 0 - Sair            >")
+    print("<--------------------->")
 
     escolha = input("Digite o número da opção desejada: ")
 
     if escolha == '1':
-        print("Você escolheu 'País'.")
-        pais = input("Insira o seu pais")
+        os.system('cls')
+        pais = input("Insira o seu pais: ")
         type = 1
         resultado = proxy.buscar_dados_por_pais(pais,type)
         resultados(resultado)
     elif escolha == '2':
-        print("Você escolheu 'first name'.")
-        first_name = input("Insira o seu first name")
+        os.system('cls')
+        first_name = input("Insira o seu Primeiro nome: ")
         type = 2
         resultado = proxy.buscar_dados_por_pais(first_name,type)
+
         resultados(resultado)
     elif escolha == '3':
-        print("Você escolheu 'last name'.")
-        last_name = input("Insira o seu last name")
+        os.system('cls')
+        last_name = input("Insira o seu último nome: ")
         type = 3
         resultado = proxy.buscar_dados_por_pais(last_name,type)
         resultados(resultado)
     elif escolha == '4':
-        print("Você escolheu 'age'.")
-        age = input("Insira o seu age")
+        os.system('cls')
+        age = input("Insira a idade: ")
         type = 4
         resultado = proxy.buscar_dados_por_pais(age,type)
         resultados(resultado)
-    elif escolha == '5':
-        print("Saindo do programa.")
-        break  # Isso encerrará o loop.
+    elif escolha == '0':
+        print("A sair")
+        for _ in range(3):
+            time.sleep(1)  
+            print(".") 
+        break  
 
     else:
         print("Opção inválida. Tente novamente.")
