@@ -3,13 +3,11 @@ import psycopg2
 import os
 import time
 
-# Conectar ao servidor RPC
 proxy = xmlrpc.client.ServerProxy('http://localhost:8000/')
 
 def resultados(resultado):
     if resultado:
 
-        # Conectar ao banco de dados PostgreSQL
         conn = psycopg2.connect(
             dbname="ParsingXML",
             user="postgres",
@@ -26,10 +24,10 @@ def resultados(resultado):
                 country = pessoa['country']
                 age = pessoa['age']
 
-                # Imprimir os detalhes da pessoa no terminal
+      
                 print(f"ID: {id}, Nome: {first_name} {last_name}, País: {country}, Idade: {age}")
 
-                # Inserir os dados na tabela "Person"
+
                 query = "INSERT INTO Person (id, first_name, last_name, country, age) VALUES (%s, %s, %s, %s, %s)"
                 cursor.execute(query, (id, first_name, last_name, country, age))
 
@@ -94,5 +92,5 @@ while True:
     else:
         print("Opção inválida. Tente novamente.")
 
-# Chamar a função no servidor RPC com base na entrada do usuário
+
 

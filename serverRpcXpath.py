@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import xmlrpc.server
 
-def buscar_dados_por_pais(info, type):
+def buscar_dados(info, type):
     tree = ET.parse('dataset.xml')
     root = tree.getroot()
     
@@ -24,7 +24,7 @@ def buscar_dados_por_pais(info, type):
     return resultado
 
 server = xmlrpc.server.SimpleXMLRPCServer(('localhost', 8000))
-server.register_function(buscar_dados_por_pais, 'buscar_dados_por_pais')
+server.register_function(buscar_dados, 'buscar_dados')
 
 print("Servidor RPC aguardando solicitações...")
 server.serve_forever()
